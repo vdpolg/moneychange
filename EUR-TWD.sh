@@ -10,19 +10,18 @@
 
 
 echo '=============不計手續費============='
-curl -s http://www.findrate.tw/EUR/#.WzrWutIzY2w |egrep -B1 '(需要買歐元|歐元換成台幣)'|awk -F '>' '{print $2}'| sed 's/<.*//g' |sed 's/。.*/。/g'
-
+curl -sk https://www.findrate.tw/EUR/#.WzrWutIzY2w |egrep -B1 '(需要買歐元|歐元換成台幣)'|awk -F '>' '{print $2}'| sed 's/<.*//g' |sed 's/。.*/。/g'
 echo ' '
 echo '=============臺銀資料============='
 echo -n 臺銀:歐元'現鈔賣出價格: '
-curl -s http://www.findrate.tw/bank/29/#.Wv0TO0iFM2w |grep -A 3 EUR |tail -n1 | awk '{print $4}'|cut -c 15-25 |sed 's/<\/td>//g'
+curl -sk https://www.findrate.tw/bank/29/#.Wv0TO0iFM2w |grep -A 3 EUR |tail -n1 | awk '{print $4}'|cut -c 15-25 |sed 's/<\/td>//g'
 
 echo -n '1000元可換多少歐元: '
-curl -s http://www.findrate.tw/converter/TWD/EUR/1000/#.WzraIdIzY2w |grep -A2 '00 TWD' |tail -n1 |awk '{print $3}' |cut -c 13-19
+curl -sk https://www.findrate.tw/converter/TWD/EUR/1000/#.WzraIdIzY2w |grep -A2 '00 TWD' |tail -n1 |awk '{print $3}' |cut -c 13-19
 
 #Sfin=$(sed -n '/>--</=' test.html |tail -n1|awk '{print $1+7,$1+10,$1+14}'|sed 's/ /,/g')
 #sed -n ''$Sfin' p' test.html
-curl -s 'http://www.findrate.tw/EUR/?type=EUR&order=out1&by=asc' > test.html
+curl -sk 'https://www.findrate.tw/EUR/?type=EUR&order=out1&by=asc' > test.html
 echo ' '
 echo -n '===最便宜價格排序===第1名 : '
 S7=$(sed -n '/>--</=' test.html |tail -n1 |awk '{print $1+7}')
